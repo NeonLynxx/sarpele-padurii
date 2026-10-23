@@ -1,0 +1,33 @@
+name: Creeaza APK
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Instaleaza dependentele Linux
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev automake autopoint gettext
+          python -m pip install buildozer==1.6.0 'Cython<3' virtualenv setuptools
+      - name: Compileaza APK
+        env:
+          PYTHONFORANDROID_PREREQUISITES_INSTALL_INTERACTIVE: '0'
+        run: buildozer -v android debug
+      - name: Descarca APK de aici
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sarpele-padurii-APK
+          path: bin/*.apk
+          if-no-files-found: error
