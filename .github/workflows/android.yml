@@ -19,7 +19,7 @@ jobs:
       - name: Instaleaza dependentele Linux
         run: |
           sudo apt-get update
-          sudo apt-get install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev automake autopoint gettext
+          sudo apt-get install -y git zip unzip autoconf libtool libtool-bin libltdl-dev pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev automake autopoint gettext
           python -m pip install buildozer==1.6.0 'Cython<3' virtualenv setuptools
       - name: Compileaza APK
         env:
